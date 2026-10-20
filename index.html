@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Счётчик ковров · демо-стенд</title>
+<meta name="description" content="Подсчёт рулонов ковров на погрузочной ленте по трём камерам: демо-стенд на записанном видео.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='9' width='26' height='14' rx='7' fill='%232f7a4d'/%3E%3Ccircle cx='10' cy='16' r='4' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Счётчик ковров на погрузке</h1>
+    <p class="sub">Демо-стенд: запись погрузки, обработанная платформой</p>
+  </div>
+  <div class="player" role="group" aria-label="Воспроизведение">
+    <button id="play" class="icon" aria-label="Пауза">
+      <svg id="ico-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <svg id="ico-play" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+    </button>
+    <button id="restart" class="icon" aria-label="С начала">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="speed" role="radiogroup" aria-label="Скорость">
+      <button data-speed="0.5" role="radio">0.5×</button>
+      <button data-speed="1" role="radio" class="on">1×</button>
+      <button data-speed="2" role="radio">2×</button>
+    </div>
+    <span class="clock" id="clock">00:00 / 00:00</span>
+  </div>
+</header>
+
+<main class="dash">
+  <section class="kpis">
+    <div class="kpi main">
+      <span class="k-label">Уехало в фуру</span>
+      <span class="k-num" id="k-count">0</span>
+      <span class="k-sub">рулонов засчитано</span>
+    </div>
+    <div class="kpi">
+      <span class="k-label">Сейчас на ленте</span>
+      <span class="k-num" id="k-belt">0</span>
+      <span class="k-sub">видит считающая камера</span>
+    </div>
+    <div class="kpi">
+      <span class="k-label">Считает</span>
+      <span class="k-text" id="k-cam">—</span>
+      <span class="k-sub" id="k-switch">переключений: 0</span>
+    </div>
+    <div class="kpi">
+      <span class="k-label">Видят ленту</span>
+      <span class="k-num" id="k-see">0<small> из 3</small></span>
+      <span class="k-sub" id="k-see-sub">камер</span>
+    </div>
+  </section>
+
+  <section class="card live">
+    <div class="live-head">
+      <b id="live-name">—</b>
+      <span class="pill" id="live-pill">—</span>
+    </div>
+    <div class="live-frame"><canvas id="live" aria-label="Считающая камера"></canvas></div>
+    <ul class="legend">
+      <li><i class="sw belt"></i>лента</li>
+      <li><i class="sw tracking"></i>рулон едет</li>
+      <li><i class="sw counted"></i>засчитан</li>
+      <li><i class="sw off"></i>вне ленты</li>
+    </ul>
+  </section>
+
+  <section class="mid">
+    <div class="card">
+      <h2>Все камеры</h2>
+      <div class="tiles" id="tiles"></div>
+    </div>
+    <div class="card">
+      <h2>Ход погрузки</h2>
+      <div class="chart" id="chart"></div>
+    </div>
+  </section>
+
+  <section class="card feed">
+    <h2>Засчитанные рулоны</h2>
+    <ol id="feed"></ol>
+    <p class="empty" id="feed-empty">Пока ни одного — рулон засчитывается, когда проехал 20% ленты к фуре.</p>
+  </section>
+</main>
+
+<footer class="note">
+  <p><b>Что здесь настоящее.</b> Детекция рулонов и ленты (YOLOE по образцу), трекинг, подсчёт и выбор считающей камеры — результат той же программы, что работает с камерами на объекте; видео обработано заранее.</p>
+  <p><b>Что смоделировано.</b> Все три «камеры» получены из одной записи с телефона: камера 2 — тот же кадр ближе и под другим углом, камера 3 — край склада без ленты. Фура, закрывающая камеру 1 на 11–19 секунде, нарисована.</p>
+</footer>
+
+<div class="sources" aria-hidden="true" id="sources"></div>
+<script src="app.js?v=4"></script>
+</body>
+</html>
