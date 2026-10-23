@@ -332,7 +332,8 @@ async function main() {
     vids[c.id] = v;
   }
   leader = vids[R.cams[0].id];
-  leader.addEventListener("ended", () => { if (playing) { seek(0); eachVid((v) => v.play().catch(() => {})); } });
+  // Досмотрели — стоп на последнем кадре; «▶» начнёт заново (см. setPlaying).
+  leader.addEventListener("ended", () => { eachVid((v) => v.pause()); showPlaying(false); render(R.duration); });
 
   buildTiles();
   buildChart();
